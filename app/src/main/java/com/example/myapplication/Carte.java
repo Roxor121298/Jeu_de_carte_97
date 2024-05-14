@@ -3,6 +3,15 @@ package com.example.myapplication;
 import static android.graphics.Color.RED;
 import static android.graphics.Color.YELLOW;
 
+import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.view.Gravity;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 public class Carte {
 
     int nb;
@@ -12,7 +21,7 @@ public class Carte {
     public Carte(int nb){
         this.nb = nb;
         if(this.nb < 33){
-            this.couleur = Integer.parseInt("#ffa500"); // orange
+            this.couleur = Color.parseColor("#ffa500"); // orange
         }
         else if (this.nb < 66){
             this.couleur = YELLOW; // static color yellow
@@ -21,4 +30,28 @@ public class Carte {
             this.couleur = RED; // static color red
         this.played_state = false;
     }
+    public void DessinerCarte(LinearLayout layout, Context contexte, Ecran_de_jeu.EcouteurDrag drag){
+
+        TextView textView = new TextView(contexte);
+        textView.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+        textView.setGravity(Gravity.CENTER);
+        textView.setText(String.valueOf(this.getNb())); // Assuming Carte class has a method getNumber()
+        textView.setBackground(contexte.getDrawable(R.drawable.carte));
+        textView.setTextColor(Color.WHITE);  // Set text color that contrasts with the card image
+        textView.setTextSize(22); // Set text size
+        textView.setOnTouchListener(drag);
+        layout.setOnDragListener(drag);
+        layout.addView(textView);
+    }
+    public void JouerCarte(LinearLayout l, ImageView I){
+
+    }
+    public int getNb() {return nb;}
+    public void setNb(int nb) {this.nb = nb;}
+    public int getCouleur() {return couleur;}
+    public void setCouleur(int couleur) {this.couleur = couleur;}
+    public boolean isPlayed_state() {return played_state;}
+    public void setPlayed_state(boolean played_state) {this.played_state = played_state;}
 }

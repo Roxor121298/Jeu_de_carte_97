@@ -24,18 +24,19 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/Jouer1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
             android:layout_weight="1">
 
             <LinearLayout
+                android:id="@+id/Jouer1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"></LinearLayout>
             <LinearLayout
+                android:id="@+id/Jouer2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -51,19 +52,20 @@
             android:layout_weight="0.3"></LinearLayout>
 
         <LinearLayout
-            android:id="@+id/Jouer2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
             android:layout_weight="1">
 
             <LinearLayout
+                android:id="@+id/Jouer3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"></LinearLayout>
 
             <LinearLayout
+                android:id="@+id/Jouer4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -86,12 +88,14 @@
             android:layout_weight="1">
 
             <LinearLayout
+                android:id="@+id/Deck1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"></LinearLayout>
 
             <LinearLayout
+                android:id="@+id/Deck2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -100,12 +104,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/Deck3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"></LinearLayout>
 
             <LinearLayout
+                android:id="@+id/Deck4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -119,24 +125,28 @@
             android:layout_weight="1">
 
             <LinearLayout
+                android:id="@+id/Deck5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"></LinearLayout>
 
             <LinearLayout
+                android:id="@+id/Deck6"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"></LinearLayout>
 
             <LinearLayout
+                android:id="@+id/Deck7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"></LinearLayout>
 
             <LinearLayout
+                android:id="@+id/Deck8"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
