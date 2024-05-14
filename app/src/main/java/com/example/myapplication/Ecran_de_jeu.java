@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -19,14 +20,20 @@ import java.util.Collections;
 import java.util.Timer;
 import java.util.Vector;
 
+import kotlin.io.LineReader;
+
 public class Ecran_de_jeu extends AppCompatActivity {
 
 
     Vector<Carte> cartes;
 
     Vector<Carte> main;
-    LinearLayout Deck;
-    ImageView CarteNode;
+    LinearLayout Deck, Jouer1, Jouer2, Jouer3, Jouer4;
+
+    LinearLayout Deck1,Deck2,Deck3,Deck4,Deck5,Deck6,Deck7,Deck8;
+
+    LinearLayout[] DeckList;
+    TextView CarteNode;
 
     Jeu jeu;
 
@@ -39,10 +46,33 @@ public class Ecran_de_jeu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CarteNode = new ImageView(this);
+        CarteNode = new TextView(this);
         Deck = findViewById(R.id.Deck);
-
         drag = new EcouteurDrag();
+
+
+
+        Deck1 = findViewById(R.id.Deck1);
+        Deck2 = findViewById(R.id.Deck2);
+        Deck3 = findViewById(R.id.Deck3);
+        Deck4 = findViewById(R.id.Deck4);
+
+        Deck5 = findViewById(R.id.Deck5);
+        Deck6 = findViewById(R.id.Deck6);
+        Deck7 = findViewById(R.id.Deck7);
+        Deck8 = findViewById(R.id.Deck8);
+
+        DeckList = new LinearLayout[]{Deck1, Deck2, Deck3, Deck4, Deck5, Deck6, Deck7, Deck8};
+
+        Jouer1 = findViewById(R.id.Jouer1);
+        Jouer2 = findViewById(R.id.Jouer2);
+        Jouer3 = findViewById(R.id.Jouer3);
+        Jouer4 = findViewById(R.id.Jouer4);
+
+        Jouer1.setOnDragListener(drag);
+        Jouer2.setOnDragListener(drag);
+        Jouer3.setOnDragListener(drag);
+        Jouer4.setOnDragListener(drag);
 
     }
 
@@ -59,6 +89,12 @@ public class Ecran_de_jeu extends AppCompatActivity {
             try {
                 Integer node = Integer.parseInt(TimerPoint.getText().toString());
                 TimerPoint.setText(String.valueOf(node + 1));
+                for(int i = 1; i < 9; i++ ){
+                    int j = DeckList[i].getChildCount();
+                if(j > 2){
+                    PigeDeuxCarte();
+                }
+                }
             } catch (NumberFormatException e) {
                 System.out.println("pass");
             }
@@ -70,8 +106,9 @@ public class Ecran_de_jeu extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        // commencer le tick
+        // commencer le tick pour le timer
         handler.post(tickRunnable);
+
 
         // Création des 97 cartes
         cartes = new Vector<Carte>();
@@ -84,14 +121,22 @@ public class Ecran_de_jeu extends AppCompatActivity {
         Collections.shuffle(cartes);
 
         main = new Vector<Carte>();
-        //mettre 8 carte dans notre mains
+        //mettre 8 carte dans notre main
         for (int i = 0; i < 8; i++) {
             Carte CarteNode = cartes.elementAt(i);
             cartes.remove(i);
             main.add(CarteNode);
         }
 
-        // Pour setup les couleurs des premiere carte et les changeer plus tard
+
+
+        InitialisationJeu();
+
+
+    }
+
+    private void InitialisationJeu(){
+        // Pour setup les couleurs des premiere carte et les changer plus tard
         int[] deckIds = new int[]{R.id.Deck1, R.id.Deck2, R.id.Deck3, R.id.Deck4, R.id.Deck5, R.id.Deck6, R.id.Deck7, R.id.Deck8}; // Adjust if you have Jouer3 and Jouer4 defined
         LinearLayout[] deckLayouts = new LinearLayout[deckIds.length];
 
@@ -101,7 +146,6 @@ public class Ecran_de_jeu extends AppCompatActivity {
             Context context = this;
             main.get(i).DessinerCarte(deckLayouts[i], context, drag);
         }
-
 
         // pour setup les couleur de fond et pouvoir les changer plus tard
         int[] fondIds = new int[]{R.id.Jeu, R.id.Deck, R.id.Score};
@@ -113,6 +157,7 @@ public class Ecran_de_jeu extends AppCompatActivity {
             fondLayout[i].setBackground(getDrawable((R.drawable.fond_carte)));
         }
 
+        // commencer le timer dans la section en haut
         StartTimer(fondLayout[2]);
 
     }
@@ -156,6 +201,7 @@ public class Ecran_de_jeu extends AppCompatActivity {
             return true;
         }
 
+
         @Override
         public boolean onDrag(View source, DragEvent event) {
             switch (event.getAction()) {
@@ -169,8 +215,8 @@ public class Ecran_de_jeu extends AppCompatActivity {
                     break;
 
                 case DragEvent.ACTION_DROP:
-                    if (event.getLocalState() instanceof TextView) {
-                        //CarteNode = (TextView) event.getLocalState();
+                    if (event.getLocalState() instanceof TextView && source instanceof LinearLayout) {
+                        CarteNode = (TextView) event.getLocalState();
                         LinearLayout parent = (LinearLayout) CarteNode.getParent();
                         if (parent != null) {
                             parent.removeView(CarteNode);
@@ -178,6 +224,13 @@ public class Ecran_de_jeu extends AppCompatActivity {
                         LinearLayout container = (LinearLayout) source;
                         container.addView(CarteNode);
                         CarteNode.setVisibility(View.VISIBLE);
+                        CarteNode.setOnTouchListener(drag);
+                    }
+                    else{
+                        CarteNode = (TextView) event.getLocalState();
+                        CarteNode.setVisibility(View.VISIBLE);
+                        CarteNode.setText((CharSequence) CarteNode.getTag());
+                        CarteNode.setOnTouchListener(drag);
                     }
                     break;
             }
@@ -186,11 +239,9 @@ public class Ecran_de_jeu extends AppCompatActivity {
 
     }
 
-    private void PigeUneCarte(){
+    private void PigeDeuxCarte(){
 
     }
-
-
 
 
     private class EcouteurTouch implements View.OnTouchListener,View.OnDragListener {
