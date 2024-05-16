@@ -32,7 +32,7 @@
 
             <LinearLayout
                 android:id="@+id/Jouer1"
-                android:tag="down"
+                android:tag="down1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -42,7 +42,7 @@
                 android:layout_marginTop="10dp"></LinearLayout>
             <LinearLayout
                 android:id="@+id/Jouer2"
-                android:tag="down"
+                android:tag="down2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -69,7 +69,7 @@
 
             <LinearLayout
                 android:id="@+id/Jouer3"
-                android:tag="up"
+                android:tag="up1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -80,7 +80,7 @@
 
             <LinearLayout
                 android:id="@+id/Jouer4"
-                android:tag="up"
+                android:tag="up2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"

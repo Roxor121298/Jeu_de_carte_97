@@ -7,6 +7,7 @@ import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,7 +31,7 @@ public class Carte {
             this.couleur = RED; // static color red
         this.played_state = false;
     }
-    public void DessinerCarte(LinearLayout layout, Context contexte, Ecran_de_jeu.EcouteurDrag drag){
+    public void DessinerCarte(LinearLayout layout, Context contexte, Ecran_de_jeu.EcouteurDrag drag,Drawable dessin){
 
         TextView textView = new TextView(contexte);
         textView.setLayoutParams(new LinearLayout.LayoutParams(
