@@ -58,7 +58,18 @@ public class Ecran_acceuil extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onStop() {
+        super.onStop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop(); // stop la musique
+            mediaPlayer.release(); // je crois que c'est un genre de clear
+            mediaPlayer = null;
+        }
+    }
+
+    // previens de tomber dans un genre de loop si on quitte android sans quitter fermer l'application
+    @Override
+    protected void onDestroy() { //
         super.onDestroy();
         if (mediaPlayer != null) {
             mediaPlayer.stop(); // stop la musique
@@ -66,6 +77,12 @@ public class Ecran_acceuil extends AppCompatActivity {
             mediaPlayer = null;
         }
     }
+
+
+
+
+
+
 
     private class Ecouteurclick implements View.OnClickListener {
 

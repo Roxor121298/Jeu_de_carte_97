@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -12,27 +11,25 @@ import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Collections;
-import java.util.Timer;
 import java.util.Vector;
 
-import kotlin.io.LineReader;
+//import kotlin.io.LineReader;
 
 public class Ecran_de_jeu extends AppCompatActivity {
 
+    int[] deckIds;
 
+    LinearLayout[] deckLayouts;
     Vector<Carte> cartes;
-
     Vector<Carte> main;
     LinearLayout Deck, Jouer1, Jouer2, Jouer3, Jouer4;
 
     LinearLayout Deck1,Deck2,Deck3,Deck4,Deck5,Deck6,Deck7,Deck8;
 
-    LinearLayout[] DeckList;
     TextView CarteNode;
 
     Jeu jeu;
@@ -62,8 +59,6 @@ public class Ecran_de_jeu extends AppCompatActivity {
         Deck7 = findViewById(R.id.Deck7);
         Deck8 = findViewById(R.id.Deck8);
 
-        DeckList = new LinearLayout[]{Deck1, Deck2, Deck3, Deck4, Deck5, Deck6, Deck7, Deck8};
-
         Jouer1 = findViewById(R.id.Jouer1);
         Jouer2 = findViewById(R.id.Jouer2);
         Jouer3 = findViewById(R.id.Jouer3);
@@ -73,6 +68,13 @@ public class Ecran_de_jeu extends AppCompatActivity {
         Jouer2.setOnDragListener(drag);
         Jouer3.setOnDragListener(drag);
         Jouer4.setOnDragListener(drag);
+
+        Jouer1.setBackground(Ecran_de_jeu.this.getDrawable(R.drawable.pyramide_down));
+        Jouer2.setBackground(Ecran_de_jeu.this.getDrawable(R.drawable.pyramide_down));
+        Jouer3.setBackground(Ecran_de_jeu.this.getDrawable(R.drawable.pyramide_up));
+        Jouer4.setBackground(Ecran_de_jeu.this.getDrawable(R.drawable.pyramide_up));
+
+
 
     }
 
@@ -89,11 +91,8 @@ public class Ecran_de_jeu extends AppCompatActivity {
             try {
                 Integer node = Integer.parseInt(TimerPoint.getText().toString());
                 TimerPoint.setText(String.valueOf(node + 1));
-                for(int i = 1; i < 9; i++ ){
-                    int j = DeckList[i].getChildCount();
-                if(j > 2){
-                    PigeDeuxCarte();
-                }
+                if(main.size() <= 6){
+                    PigeLesCartes();
                 }
             } catch (NumberFormatException e) {
                 System.out.println("pass");
@@ -137,11 +136,11 @@ public class Ecran_de_jeu extends AppCompatActivity {
 
     private void InitialisationJeu(){
         // Pour setup les couleurs des premiere carte et les changer plus tard
-        int[] deckIds = new int[]{R.id.Deck1, R.id.Deck2, R.id.Deck3, R.id.Deck4, R.id.Deck5, R.id.Deck6, R.id.Deck7, R.id.Deck8}; // Adjust if you have Jouer3 and Jouer4 defined
-        LinearLayout[] deckLayouts = new LinearLayout[deckIds.length];
+        deckIds = new int[]{R.id.Deck1, R.id.Deck2, R.id.Deck3, R.id.Deck4, R.id.Deck5, R.id.Deck6, R.id.Deck7, R.id.Deck8}; // Adjust if you have Jouer3 and Jouer4 defined
+        deckLayouts = new LinearLayout[deckIds.length];
 
         // Pour dessiner les carte qui sont dans ma mains
-        for (int i = 0; i < deckIds.length; i++) {
+        for (int i = 0; i < main.size(); i++) {
             deckLayouts[i] = findViewById(deckIds[i]);
             Context context = this;
             main.get(i).DessinerCarte(deckLayouts[i], context, drag);
@@ -207,11 +206,21 @@ public class Ecran_de_jeu extends AppCompatActivity {
             switch (event.getAction()) {
 
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    source.setBackground(Ecran_de_jeu.this.getDrawable(R.drawable.carte_selectionne));
+                    if(source.getTag().toString().equals("up")) {
+                        source.setBackground(Ecran_de_jeu.this.getDrawable(R.drawable.pyramide_up_selection));
+                    }
+                    else{
+                        source.setBackground(Ecran_de_jeu.this.getDrawable(R.drawable.pyramide_down_selection));
+                    }
                     break;
 
                 case DragEvent.ACTION_DRAG_EXITED:
-                    source.setBackground(Ecran_de_jeu.this.getDrawable(R.drawable.carte));
+                    if(source.getTag().toString().equals("up")){
+                        source.setBackground(Ecran_de_jeu.this.getDrawable(R.drawable.pyramide_up));
+                    }
+                    else{
+                        source.setBackground(Ecran_de_jeu.this.getDrawable(R.drawable.pyramide_down));
+                    }
                     break;
 
                 case DragEvent.ACTION_DROP:
@@ -239,7 +248,15 @@ public class Ecran_de_jeu extends AppCompatActivity {
 
     }
 
-    private void PigeDeuxCarte(){
+    private void PigeLesCartes(){
+        for (int i = 0; i < main.size(); i++) {
+            deckLayouts[i] = findViewById(deckIds[i]);
+            Context context = this;
+            main.get(i).DessinerCarte(deckLayouts[i], context, drag);
+        }
+    }
+
+    private void jouerCarte(){
 
     }
 

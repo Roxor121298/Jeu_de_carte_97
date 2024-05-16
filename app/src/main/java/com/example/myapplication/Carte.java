@@ -43,7 +43,6 @@ public class Carte {
         textView.setTextSize(22); // Set text size
         textView.setTag(this.getNb()); // Set tag == nb de la carte
         textView.setOnTouchListener(drag);
-        layout.setOnDragListener(drag);
         layout.addView(textView);
     }
     public void JouerCarte(LinearLayout l, ImageView I){
