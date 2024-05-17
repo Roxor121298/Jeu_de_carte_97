@@ -28,10 +28,10 @@ public class Carte {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
         textView.setGravity(Gravity.CENTER);
-        textView.setText(String.valueOf(this.getNb())); // set le num sur la carte
+        textView.setText(String.valueOf(this.getNb()));
         textView.setBackground(contexte.getDrawable(R.drawable.carte));
-        textView.setTextColor(Color.WHITE);  // Set text color that contrasts with the card image
-        textView.setTextSize(22); // Set text size
+        textView.setTextColor(Color.WHITE);
+        textView.setTextSize(22);
         textView.setTag(this.getNb()); // Set tag == nb de la carte
         textView.setOnTouchListener(drag);
         layout.addView(textView);

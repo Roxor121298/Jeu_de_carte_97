@@ -129,12 +129,12 @@ public class Ecran_de_jeu extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         textView.setGravity(Gravity.CENTER);
         textView.setText(text);
-        textView.setTextColor(Color.WHITE);  // Set text color
-        textView.setTextSize(20); // Set text size
+        textView.setTextColor(Color.WHITE);
+        textView.setTextSize(20);
         textView.setTag(Integer.parseInt(text));
         textView.setOnTouchListener(new EcouteurDrag());
 
-        // Clear existing views and add the new TextView
+
         layout.removeAllViews();
         layout.addView(textView);
     }
