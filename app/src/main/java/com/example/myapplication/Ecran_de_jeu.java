@@ -2,8 +2,11 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -30,11 +33,12 @@ public class Ecran_de_jeu extends AppCompatActivity {
     private TextView CarteNode;
     private TextView TimerPoint;
     private EcouteurDrag drag;
-
     private TextView remainingCardsTextView;
     private TextView scoreTextView;
-    private int score;
-    private long startTime;
+    private int score, carteRestantes;
+
+    Gestion_DB instance;
+
 
     private Handler handler = new Handler();
     private Runnable tickRunnable = new Runnable() {
@@ -49,7 +53,7 @@ public class Ecran_de_jeu extends AppCompatActivity {
                 }
                 PigeLesCartes();
             }
-            if (cartes.size() == 0) {
+            if(main.size() == 0 && cartes.size() == 0){
                 FindelaPartie();
             }
             // repart le timer dans 1000 milliseconde
@@ -126,7 +130,7 @@ public class Ecran_de_jeu extends AppCompatActivity {
         textView.setGravity(Gravity.CENTER);
         textView.setText(text);
         textView.setTextColor(Color.WHITE);  // Set text color
-        textView.setTextSize(22); // Set text size
+        textView.setTextSize(20); // Set text size
         textView.setTag(Integer.parseInt(text));
         textView.setOnTouchListener(new EcouteurDrag());
 
@@ -138,12 +142,15 @@ public class Ecran_de_jeu extends AppCompatActivity {
     // update le tick
     private void updateTimer() {
             int node = Integer.parseInt(TimerPoint.getText().toString());
-            TimerPoint.setText(String.valueOf(node + 1));
+            TimerPoint.setText(String.valueOf( node + 1));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        instance = Gestion_DB.getInstance(getApplicationContext());
+        instance.ouvrirConnexion();
+
         remainingCardsTextView = findViewById(R.id.remainingCardsTextView);
         scoreTextView = findViewById(R.id.scoreTextView);
         score = 0;
@@ -229,7 +236,9 @@ public class Ecran_de_jeu extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         handler.removeCallbacks(tickRunnable);
+        instance.fermerConnexion();
     }
+
 
     public class EcouteurDrag implements View.OnTouchListener, View.OnDragListener {
 
@@ -288,6 +297,7 @@ public class Ecran_de_jeu extends AppCompatActivity {
             }
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         private void handleDrop(DragEvent event, View source) {
             // si l'événement est bien un texteView et que la soruce est bien un LinearLayout
             if (event.getLocalState() instanceof TextView && source instanceof LinearLayout) {
@@ -316,11 +326,7 @@ public class Ecran_de_jeu extends AppCompatActivity {
                     droppedCard.setOnTouchListener(null);
                     // On ajoute le nouveau TextView
                     container.addView(droppedCard);
-                } else {
-                    //parent.addView(droppedCard);
                 }
-                droppedCard.setVisibility(View.VISIBLE);
-                droppedCard.setOnTouchListener(this);
             }
         }
 
@@ -384,8 +390,8 @@ public class Ecran_de_jeu extends AppCompatActivity {
 
         // update le nombre de carte
         private void updateGameState(TextView cardView, LinearLayout container) {
-            int remainingCards = cartes.size() + main.size() + 1;
-            remainingCardsTextView.setText(" Cartes restantes : " + remainingCards);
+            carteRestantes = cartes.size() + main.size() + 1;
+            remainingCardsTextView.setText(" Cartes restantes : " + carteRestantes);
 
             // Update le Socre
             calculateAndUpdateScore(cardView, container);
@@ -417,15 +423,16 @@ public class Ecran_de_jeu extends AppCompatActivity {
         }
     }
 
-
-
-
-    private void jouerCarte() {
-        // Game logic for playing a card
-    }
-
     private void FindelaPartie() {
-        // Logic to end the game
+
+        int scoreFinal = Integer.valueOf(scoreTextView.getText().toString());
+        int carteFinal = carteRestantes;
+        int tempsFinal = Integer.valueOf(TimerPoint.getText().toString());
+        instance.ajouterScore(scoreFinal,carteFinal,tempsFinal);
+
+        Intent i = new Intent(getApplicationContext(), Ecran_de_jeu.class );
+        startActivity(i);
+
     }
 }
 

@@ -35,6 +35,9 @@ public class Carte {
         textView.setTag(this.getNb()); // Set tag == nb de la carte
         textView.setOnTouchListener(drag);
         layout.addView(textView);
+        if(layout.getTag().toString().matches("^Jouer$")){
+            textView.setOnTouchListener(null);
+        }
     }
     public void JouerCarte(LinearLayout l, ImageView I){
 
