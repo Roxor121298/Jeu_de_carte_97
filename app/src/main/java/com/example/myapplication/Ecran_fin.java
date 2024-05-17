@@ -85,7 +85,7 @@ public class Ecran_fin extends AppCompatActivity {
         @Override
         public void onClick(View node) {
 
-            Intent i = new Intent(getApplicationContext(), Ecran_de_jeu.class );
+            Intent i = new Intent(getApplicationContext(), Ecran_fin.class );
             startActivity(i);
 
 

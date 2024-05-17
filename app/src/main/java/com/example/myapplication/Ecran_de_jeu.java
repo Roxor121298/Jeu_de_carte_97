@@ -17,13 +17,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import java.util.Collections;
 import java.util.Vector;
 
 public class Ecran_de_jeu extends AppCompatActivity {
 
     private int[] deckIds;
-    private int pointage;
+    private int pointage, proximityScore;
     private Drawable dessiNode;
     private LinearLayout[] deckLayouts;
     private Vector<Carte> cartes;
@@ -38,7 +39,6 @@ public class Ecran_de_jeu extends AppCompatActivity {
     private int score, carteRestantes;
 
     Gestion_DB instance;
-
 
     private Handler handler = new Handler();
     private Runnable tickRunnable = new Runnable() {
@@ -78,7 +78,6 @@ public class Ecran_de_jeu extends AppCompatActivity {
         Deck = findViewById(R.id.Deck);
         drag = new EcouteurDrag();
 
-
         // bind les LinearLayout Deck
         Deck1 = findViewById(R.id.Deck1);
         Deck2 = findViewById(R.id.Deck2);
@@ -89,13 +88,11 @@ public class Ecran_de_jeu extends AppCompatActivity {
         Deck7 = findViewById(R.id.Deck7);
         Deck8 = findViewById(R.id.Deck8);
 
-
         // bind les LinearLayout jouer
         Jouer1 = findViewById(R.id.Jouer1);
         Jouer2 = findViewById(R.id.Jouer2);
         Jouer3 = findViewById(R.id.Jouer3);
         Jouer4 = findViewById(R.id.Jouer4);
-
 
         //donne les imamge de base au LinearLayout
         Jouer1.setBackground(getDrawable(R.drawable.pyramide_down));
@@ -104,7 +101,6 @@ public class Ecran_de_jeu extends AppCompatActivity {
         Jouer4.setBackground(getDrawable(R.drawable.pyramide_up));
 
         ajouterValeurInitial();
-
     }
 
     private void setupDragListeners() {
@@ -134,15 +130,14 @@ public class Ecran_de_jeu extends AppCompatActivity {
         textView.setTag(Integer.parseInt(text));
         textView.setOnTouchListener(new EcouteurDrag());
 
-
         layout.removeAllViews();
         layout.addView(textView);
     }
 
     // update le tick
     private void updateTimer() {
-            int node = Integer.parseInt(TimerPoint.getText().toString());
-            TimerPoint.setText(String.valueOf( node + 1));
+        int node = Integer.parseInt(TimerPoint.getText().toString());
+        TimerPoint.setText(String.valueOf(node + 1));
     }
 
     @Override
@@ -161,17 +156,16 @@ public class Ecran_de_jeu extends AppCompatActivity {
     }
 
     private void initializeCards() {
-
-        // Initalize un vecteur pour tout les cartes qui seront jouer
+        // Initialize un vecteur pour tout les cartes qui seront jouer
         cartes = new Vector<>();
         for (int i = 2; i < 98; i++) {
             cartes.add(new Carte(i));
         }
-        // shuffle les cartes de facona  ce que l'ordre d'appartition soit aléatoire
+        // shuffle les cartes de facon à ce que l'ordre d'appartition soit aléatoire
         Collections.shuffle(cartes);
 
-        // Initialise la main du jouer (les 8 carte que le joueur peut jouer)
-        // retire les 8 premier carte du packet principal
+        // Initialise la main du joueur (les 8 cartes que le joueur peut jouer)
+        // retire les 8 premières cartes du paquet principal
         main = new Vector<>();
         for (int i = 0; i < 8; i++) {
             Carte CarteNode = cartes.elementAt(i);
@@ -181,14 +175,13 @@ public class Ecran_de_jeu extends AppCompatActivity {
     }
 
     private void InitialisationJeu() {
-
-        // Liste des ids possible (tous sont appelé deck avec une numero)
+        // Liste des ids possible (tous sont appelés deck avec un numéro)
         deckIds = new int[]{R.id.Deck1, R.id.Deck2, R.id.Deck3, R.id.Deck4, R.id.Deck5, R.id.Deck6, R.id.Deck7, R.id.Deck8};
 
-        // Liste des 8 LinearLayout qui sont utilisé pour la main
+        // Liste des 8 LinearLayout qui sont utilisés pour la main
         deckLayouts = new LinearLayout[deckIds.length];
 
-        // pour chaque carte dans la main dessiner uen carte dans le layout approprié
+        // pour chaque carte dans la main dessiner une carte dans le layout approprié
         for (int i = 0; i < main.size(); i++) {
             deckLayouts[i] = findViewById(deckIds[i]);
             Context context = this;
@@ -199,24 +192,24 @@ public class Ecran_de_jeu extends AppCompatActivity {
         // mettre la couleur de fond des LinearLayout Jeu, Deck et Score (les Linear Layout englobant les autres)
         setupBackgroundColors();
 
-        // Dessiner le timer de maniere directe dans java
+        // Dessiner le timer de manière directe dans Java
         DessinerTimer(findViewById(R.id.Score));
     }
 
     private void setupBackgroundColors() {
-        // Liste des ids possible
+        // Liste des ids possibles
         int[] fondIds = new int[]{R.id.Jeu, R.id.Deck, R.id.Score};
         // Liste des 3 Linear Layout
         LinearLayout[] fondLayout = new LinearLayout[fondIds.length];
 
-        // pour chaque LinearLayout englobant mettre leur couleur selon ce drawable xml
+        // pour chaque LinearLayout englobant mettre leur couleur selon ce drawable XML
         for (int i = 0; i < fondIds.length; i++) {
             fondLayout[i] = findViewById(fondIds[i]);
             fondLayout[i].setBackground(getDrawable(R.drawable.fond_carte));
         }
     }
 
-    // Ajoute un Text View dans le LinearLayout Score
+    // Ajoute un TextView dans le LinearLayout Score
     private void DessinerTimer(LinearLayout LayoutScore) {
         TimerPoint = new TextView(this);
         TimerPoint.setLayoutParams(new LinearLayout.LayoutParams(
@@ -229,8 +222,7 @@ public class Ecran_de_jeu extends AppCompatActivity {
         LayoutScore.addView(TimerPoint);
     }
 
-
-    // On Stop arreter le timer
+    // On Stop arrêter le timer
     // Mettre la base de donnée ici
     @Override
     protected void onStop() {
@@ -238,7 +230,6 @@ public class Ecran_de_jeu extends AppCompatActivity {
         handler.removeCallbacks(tickRunnable);
         instance.fermerConnexion();
     }
-
 
     public class EcouteurDrag implements View.OnTouchListener, View.OnDragListener {
 
@@ -279,7 +270,7 @@ public class Ecran_de_jeu extends AppCompatActivity {
         }
 
         private void handleDragEntered(View source) {
-            // mettre l'image selectionné quand on passe dessus
+            // mettre l'image sélectionnée quand on passe dessus
             // avec un contour rouge comme on a fait dans l'annexe de drag and drop
             if (source.getTag().toString().equals("up1") || source.getTag().toString().equals("up2")) {
                 source.setBackground(getDrawable(R.drawable.pyramide_up_selection));
@@ -288,7 +279,7 @@ public class Ecran_de_jeu extends AppCompatActivity {
             }
         }
 
-        // Enlever le contour rouge si on sors du drag and drop
+        // Enlever le contour rouge si on sort du drag and drop
         private void handleDragExited(View source) {
             if (source.getTag().toString().equals("up1") || source.getTag().toString().equals("up2")) {
                 source.setBackground(getDrawable(R.drawable.pyramide_up));
@@ -299,33 +290,33 @@ public class Ecran_de_jeu extends AppCompatActivity {
 
         @SuppressLint("ClickableViewAccessibility")
         private void handleDrop(DragEvent event, View source) {
-            // si l'événement est bien un texteView et que la soruce est bien un LinearLayout
+            // si l'événement est bien un texteView et que la source est bien un LinearLayout
             if (event.getLocalState() instanceof TextView && source instanceof LinearLayout) {
-
-                // l'événement correspond au textView que sur laquelle on a cliquer
+                // l'événement correspond au TextView que sur laquelle on a cliqué
                 TextView droppedCard = (TextView) event.getLocalState();
-                // le parent de la carte (Le LinearLayout dans laquelle le textView ce trouve)
+                // le parent de la carte (Le LinearLayout dans lequel le TextView se trouve)
                 LinearLayout parent = (LinearLayout) droppedCard.getParent();
-                // Le LinearLayout dans sur laquelle on veut dropper notre carte
+                // Le LinearLayout dans sur laquelle on veut déposer notre carte
                 LinearLayout container = (LinearLayout) source;
 
-                // On verifie que le drop est valide selon les regle du jeu et la valeur des cartes
+                // On vérifie que le dépôt est valide selon les règles du jeu et la valeur des cartes
                 if (validateMove(droppedCard, container)) {
-                    // Si le parent dans laquelle la carte ce trouve n'est pas null  on retire le layout
+                    // Si le parent dans lequel la carte se trouve n'est pas null on retire le layout
                     if (parent != null) {
-                        // On dois retirer la carte de notre la main du joueur
+                        // On doit retirer la carte de la main du joueur
                         removeCarte(droppedCard);
                         parent.removeView(droppedCard);
                     }
-                    // on met le background au par default
+                    // on met le background au par défaut
                     handleDragDrop(container, droppedCard);
-                    // Il faut retirer les ImageView présent dans le container avant d'en ajouter un nouveau
+                    // Il faut retirer les ImageView présentes dans le container avant d'en ajouter un nouveau
                     updateGameState(droppedCard, container);
                     container.removeAllViews();
                     //Il faut enlever l'écouteur pour droppedCard
                     droppedCard.setOnTouchListener(null);
                     // On ajoute le nouveau TextView
                     container.addView(droppedCard);
+                    PartieFinis();
                 }
             }
         }
@@ -388,12 +379,12 @@ public class Ecran_de_jeu extends AppCompatActivity {
             return -1;
         }
 
-        // update le nombre de carte
+        // update le nombre de cartes
         private void updateGameState(TextView cardView, LinearLayout container) {
             carteRestantes = cartes.size() + main.size() + 1;
-            remainingCardsTextView.setText(" Cartes restantes : " + carteRestantes);
+            remainingCardsTextView.setText("Cartes restantes : " + carteRestantes);
 
-            // Update le Socre
+            // Update le Score
             calculateAndUpdateScore(cardView, container);
         }
 
@@ -405,7 +396,7 @@ public class Ecran_de_jeu extends AppCompatActivity {
             System.out.println(topCardValue);
 
             // Proximity score
-            int proximityScore = Math.abs(cardValue - topCardValue);
+            proximityScore = Math.abs(cardValue - topCardValue);
 
             // Calculate the total score
             score += proximityScore;
@@ -421,20 +412,67 @@ public class Ecran_de_jeu extends AppCompatActivity {
             dessiNode = getDrawable(R.drawable.carte);
             main.get(i).DessinerCarte(deckLayouts[i], context, drag, dessiNode);
         }
+        PartieFinis();
     }
 
     private void FindelaPartie() {
-
-        int scoreFinal = Integer.valueOf(scoreTextView.getText().toString());
+        int scoreFinal = score;
         int carteFinal = carteRestantes;
         int tempsFinal = Integer.valueOf(TimerPoint.getText().toString());
-        instance.ajouterScore(scoreFinal,carteFinal,tempsFinal);
+        instance.ajouterScore(scoreFinal, carteFinal, tempsFinal);
 
-        Intent i = new Intent(getApplicationContext(), Ecran_de_jeu.class );
+        Intent i = new Intent(getApplicationContext(), Ecran_fin.class);
         startActivity(i);
+    }
 
+    private void PartieFinis() {
+        boolean canPlay = false;
+        LinearLayout[] jouerLayouts = {Jouer1, Jouer2, Jouer3, Jouer4};
+
+        for (Carte carte : main) {
+            for (LinearLayout jouerLayout : jouerLayouts) {
+                if (validateCarte(carte, jouerLayout)) {
+                    canPlay = true;
+                    break;
+                }
+            }
+            if (canPlay) break;
+        }
+
+        if (!canPlay) {
+            FindelaPartie();
+        }
+    }
+
+    private boolean validateCarte(Carte carte, LinearLayout container) {
+        int cardValue = carte.getNb();
+        String containerTag = (String) container.getTag();
+        int topCardValue = getTopCardValue(container);
+
+        if (containerTag.equals("up1") || containerTag.equals("up2")) {
+            return (cardValue > topCardValue || cardValue == topCardValue - 10);
+        } else if (containerTag.equals("down1") || containerTag.equals("down2")) {
+            return (cardValue < topCardValue || cardValue == topCardValue + 10);
+        }
+        return false;
+    }
+
+    private int getTopCardValue(LinearLayout container) {
+        int childCount = container.getChildCount();
+        if (childCount == 0) {
+            if (container.getTag().equals("up1") || container.getTag().equals("up2")) {
+                return 0;
+            } else if (container.getTag().equals("down1") || container.getTag().equals("down2")) {
+                return 98;
+            }
+        } else {
+            TextView topCardView = (TextView) container.getChildAt(childCount - 1);
+            return Integer.parseInt(topCardView.getText().toString());
+        }
+        return -1;
     }
 }
+
 
 
 
