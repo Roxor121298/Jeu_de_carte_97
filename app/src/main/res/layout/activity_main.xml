@@ -15,6 +15,23 @@
         android:orientation="horizontal"
         android:layout_weight="0.2">
 
+        <TextView
+            android:id="@+id/remainingCardsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Cartes restantes : 97"
+            android:textColor="#FFFFFFFF"
+            android:textSize="18sp"
+            android:layout_marginRight="16dp"/>
+
+        <TextView
+            android:id="@+id/scoreTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Score: 0"
+            android:textColor="#FFFFFFFF"
+            android:textSize="18sp"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -37,8 +54,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
                 android:layout_marginTop="10dp"></LinearLayout>
             <LinearLayout
                 android:id="@+id/Jouer2"
@@ -47,8 +64,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
                 android:layout_marginTop="10dp"></LinearLayout>
 
         </LinearLayout>
@@ -74,8 +91,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
                 android:layout_marginBottom="10dp"></LinearLayout>
 
             <LinearLayout
@@ -85,8 +102,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
                 android:layout_marginBottom="10dp"></LinearLayout>
         </LinearLayout>
 
@@ -107,6 +124,7 @@
 
             <LinearLayout
                 android:id="@+id/Deck1"
+                android:tag="Deck1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -114,6 +132,7 @@
 
             <LinearLayout
                 android:id="@+id/Deck2"
+                android:tag="Deck2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -123,6 +142,7 @@
 
             <LinearLayout
                 android:id="@+id/Deck3"
+                android:tag="Deck3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -130,6 +150,7 @@
 
             <LinearLayout
                 android:id="@+id/Deck4"
+                android:tag="Deck4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -144,6 +165,7 @@
 
             <LinearLayout
                 android:id="@+id/Deck5"
+                android:tag="Deck5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -151,6 +173,7 @@
 
             <LinearLayout
                 android:id="@+id/Deck6"
+                android:tag="Deck6"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -158,6 +181,7 @@
 
             <LinearLayout
                 android:id="@+id/Deck7"
+                android:tag="Deck7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -165,6 +189,7 @@
 
             <LinearLayout
                 android:id="@+id/Deck8"
+                android:tag="Deck8"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
